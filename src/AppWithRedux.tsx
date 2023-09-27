@@ -20,6 +20,7 @@ import {
   todoListsReducer
 } from "./state/todo-lists-reducer";
 import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from "./state/tasks-reducer";
+import {useDispatch} from "react-redux";
 
 
 export type FilterValuesType = "all" | "active" | "completed";
@@ -35,6 +36,7 @@ export type TasksStateType = {
 
 function AppWithRedux() {
 
+  const dispatch = useDispatch()
   /* let todoListId1 = v1();
    let todolistId2 = v1();
 
@@ -78,13 +80,13 @@ function AppWithRedux() {
 
   function removeTask(id: string, todolistId: string) {
     // setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== id)});
-    dispatchToTasks(removeTaskAC(id, todolistId))
+    dispatch(removeTaskAC(id, todolistId))
   }
 
   function addTask(title: string, todolistId: string) {
     /*let task = {id: v1(), title: title, isDone: false};
     setTasks({...tasks, [todolistId]: [task, ...tasks[todolistId]]});*/
-    dispatchToTasks(addTaskAC(title, todolistId))
+    dispatch(addTaskAC(title, todolistId))
 
   }
 
@@ -94,7 +96,7 @@ function AppWithRedux() {
          task.id === id ? {...task, isDone} : task
       )
     })*/
-    dispatchToTasks(changeTaskStatusAC(id, isDone, todolistId))
+    dispatch(changeTaskStatusAC(id, isDone, todolistId))
   }
 
   function changeTaskTitle(id: string, newTitle: string, todolistId: string) {
@@ -103,12 +105,12 @@ function AppWithRedux() {
            task.id === id ? {...task, newTitle} : task
         )
       })*/
-    dispatchToTasks(changeTaskTitleAC(id, newTitle, todolistId))
+    dispatch(changeTaskTitleAC(id, newTitle, todolistId))
   }
 
   function changeFilter(filter: FilterValuesType, todolistId: string) {
     // setTodoLists(todoLists.map(todoList => todoList.id === todolistId ? {...todoList, filter} : todoList))
-    dispatchToTodoLists(ChangeTodolistFilterAC(todolistId, filter))
+    dispatch(ChangeTodolistFilterAC(todolistId, filter))
   }
 
   function removeTodolist(id: string) {
@@ -118,7 +120,7 @@ function AppWithRedux() {
      delete tasks[id]; // удаляем св-во из объекта... значением которого являлся массив тасок
      // засетаем в стейт копию объекта, чтобы React отреагировал перерисовкой
      setTasks({...tasks});*/
-    dispatchToTodoLists(RemoveTodolistAC(id))
+    dispatch(RemoveTodolistAC(id))
 
   }
 
@@ -136,7 +138,7 @@ function AppWithRedux() {
         ...tasks,
         [newTodolistId]: []
       })*/
-    dispatchToTodoLists(AddTodolistAC(title))
+    dispatch(AddTodolistAC(title))
 
   }
 
