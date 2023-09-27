@@ -1,6 +1,6 @@
 import {TasksStateType} from "../App";
 import {v1} from "uuid";
-import {AddTodolistAC, AddTodolistActionType, RemoveTodolistAC, RemoveTodolistActionType} from "./todolists-reducer";
+import {AddTodolistActionType, RemoveTodolistActionType} from "./todo-lists-reducer";
 
 type RemoveTaskAC = ReturnType<typeof removeTaskAC>
 type AddTaskAC = ReturnType<typeof addTaskAC>
@@ -15,7 +15,7 @@ type ActionType =
    | AddTodolistActionType
    | RemoveTodolistActionType
 
-export const tasksReducer = (state: TasksStateType, action: ActionType) => {
+export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
   switch (action.type) {
     case "REMOVE=TASK":
       return {
@@ -54,7 +54,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionType) => {
       const copy = {...state}
       delete copy[action.id]
       return copy
-    
+
 
     default:
       throw new Error('I don"t  have this type')
