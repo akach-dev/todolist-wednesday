@@ -25,11 +25,11 @@ export type ChangeTaskTitleActionType = {
   title: string
 }
 
-type ActionsType = RemoveTaskActionType | AddTaskActionType
+export type ActionsTypeForTasks = RemoveTaskActionType | AddTaskActionType
    | ChangeTaskStatusActionType | ChangeTaskTitleActionType
    | AddTodolistActionType | RemoveTodolistActionType;
 
-export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType, action: ActionsTypeForTasks): TasksStateType => {
   switch (action.type) {
     case 'REMOVE-TASK': {
       const stateCopy = {...state};
@@ -39,12 +39,8 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
       return stateCopy;
     }
     case 'ADD-TASK': {
-      const stateCopy = {...state};
-      const tasks = stateCopy[action.todolistId];
-      const newTask = {id: v1(), title: action.title, isDone: false};
-      const newTasks = [newTask, ...tasks];
-      stateCopy[action.todolistId] = newTasks;
-      return stateCopy;
+      const newTask = {id: v1(), title: action.title, isDone: false}
+      return {...state, [action.todolistId]: [newTask, ...state[action.todolistId]]}
     }
     case 'CHANGE-TASK-STATUS': {
       const stateCopy = {...state};
@@ -71,16 +67,23 @@ export const tasksReducer = (state: TasksStateType, action: ActionsType): TasksS
       return stateCopy;
     }
     case 'ADD-TODOLIST': {
-      const stateCopy = {...state};
-
-      stateCopy[action.todolistId] = [];
-
-      return stateCopy;
+      return {...state, [action.todolistId]: []}
     }
     case 'REMOVE-TODOLIST': {
-      const stateCopy = {...state};
-      delete stateCopy[action.id]
-      return stateCopy;
+      // const stateCopy = {...state};
+      // delete stateCopy[action.id]
+      // return stateCopy;
+
+      // const copy = {...state}
+      //
+      // copy[action.id] = []
+      //
+      // return copy
+      
+      const {[action.id]: [], ...rest} = state
+
+      return rest
+
     }
     default:
       throw new Error("I don't understand this type")
