@@ -48,7 +48,6 @@ test('correct task should be added to correct array', () => {
 
 test('status of specified task should be changed', () => {
 
-
   const action = changeTaskStatusAC("2", false, "todolistId2");
 
   const endState = tasksReducer(startState, action)
@@ -59,7 +58,6 @@ test('status of specified task should be changed', () => {
 
 test('title of specified task should be changed', () => {
 
-
   const action = changeTaskTitleAC("2", "Milkyway", "todolistId2");
   const endState = tasksReducer(startState, action)
 
@@ -68,7 +66,6 @@ test('title of specified task should be changed', () => {
 });
 
 test('new property with new array should be added when new todolist is added', () => {
-
 
   const action = addTodolistAC("title no matter");
   const endState = tasksReducer(startState, action)
@@ -85,7 +82,6 @@ test('new property with new array should be added when new todolist is added', (
 });
 
 test('propertry with todolistId should be deleted', () => {
-
 
   const action = removeTodolistAC("todolistId2");
   const endState = tasksReducer(startState, action)

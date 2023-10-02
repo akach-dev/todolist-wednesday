@@ -13,6 +13,7 @@ let todolistId2: string
 
 let startState: Array<TodolistType>
 
+
 beforeEach(() => {
   todolistId1 = v1();
   todolistId2 = v1();
@@ -22,7 +23,6 @@ beforeEach(() => {
     {id: todolistId2, title: "What to buy", filter: "all"}
   ]
 })
-
 
 test('correct todolist should be removed', () => {
 
@@ -65,7 +65,9 @@ test('correct filter of todolist should be changed', () => {
 
 
   let newFilter: FilterValuesType = "completed";
-  const action = changeTodolistFilterAC(newFilter, todolistId2);
+
+
+  const action = changeTodolistFilterAC(todolistId2, newFilter);
   const endState = todoListsReducer(startState, action);
 
   expect(endState[0].filter).toBe("all");
