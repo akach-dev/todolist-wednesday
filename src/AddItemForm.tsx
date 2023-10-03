@@ -1,14 +1,13 @@
-import IconButton from '@mui/material/IconButton/IconButton';
 import TextField from '@mui/material/TextField/TextField';
-import React, {ChangeEvent, KeyboardEvent, memo, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import {IconButton} from "@mui/material";
 import {AddBox} from "@mui/icons-material";
 
 type AddItemFormPropsType = {
   addItem: (title: string) => void
 }
 
-export const AddItemForm = memo((props: AddItemFormPropsType) => {
-
+export function AddItemForm(props: AddItemFormPropsType) {
   console.log('AddItemForm called')
 
   let [title, setTitle] = useState("")
@@ -31,7 +30,7 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
     if (error !== null) {
       setError(null);
     }
-    if (e.code === 'Enter') {
+    if (e.charCode === 13) {
       addItem();
     }
   }
@@ -41,7 +40,7 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
                error={!!error}
                value={title}
                onChange={onChangeHandler}
-               onKeyDown={onKeyPressHandler}
+               onKeyPress={onKeyPressHandler}
                label="Title"
                helperText={error}
     />
@@ -49,4 +48,4 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
       <AddBox/>
     </IconButton>
   </div>
-})
+}
