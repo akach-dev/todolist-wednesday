@@ -1,4 +1,4 @@
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useCallback} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
@@ -29,9 +29,9 @@ export function TodolistWithOutProps({todoList}: PropsType) {
   const dispatch = useDispatch()
 
 
-  const addTask = (title: string) => {
+  const addTask = useCallback((title: string) => {
     dispatch(addTaskAC(title, id))
-  }
+  }, [])
 
   const removeTodolist = () => {
     dispatch(removeTodolistAC(id))
