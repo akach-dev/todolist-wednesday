@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React, {useCallback, useReducer, useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
@@ -7,9 +7,10 @@ import {
   addTodolistAC,
   changeTodolistFilterAC,
   changeTodolistTitleAC,
-  removeTodolistAC
-} from './state/todo-lists-reducer';
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from './state/tasks-reducer';
+  removeTodolistAC,
+  todolistsReducer
+} from './state/todolists-reducer';
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, tasksReducer} from './state/tasks-reducer';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from './state/store';
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
@@ -26,15 +27,10 @@ export type TasksStateType = {
   [key: string]: Array<TaskType>
 }
 
-
-function AppWithRedux() {
-  console.log('App called')
-
-  let todolistId1 = v1();
-  let todolistId2 = v1();
+export const AppWithRedux = () => {
 
   const todoLists = useSelector<AppRootStateType, Array<TodolistType>>(state => state.todoLists)
-  let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+  const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
   const dispatch = useDispatch();
 
   const removeTask = useCallback((id: string, todolistId: string) => {
@@ -97,6 +93,7 @@ function AppWithRedux() {
          <Grid container spacing={3}>
            {
              todoLists.map(tl => {
+
                return <Grid item key={tl.id}>
                  <Paper style={{padding: "10px"}}>
                    <Todolist
@@ -121,5 +118,3 @@ function AppWithRedux() {
      </div>
   );
 }
-
-export default AppWithRedux;

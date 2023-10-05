@@ -1,8 +1,8 @@
-import React, {memo, useCallback} from 'react';
+import React, {ChangeEvent, memo, useCallback} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import {Button, IconButton} from "@mui/material";
+import {Button, Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {Task} from "./Task";
 
@@ -28,18 +28,19 @@ type PropsType = {
 }
 
 export const Todolist = memo((props: PropsType) => {
-  console.log('Todolist called')
+
+  console.log("Todolist called")
+
 
   const addTask = useCallback((title: string) => {
     props.addTask(title, props.id);
   }, [props.addTask, props.id])
 
-  const removeTodolist = () => {
-    props.removeTodolist(props.id);
-  }
-  const changeTodolistTitle = useCallback((title: string) => {
-    props.changeTodolistTitle(props.id, title);
-  }, [props.changeTodolistTitle, props.id])
+  const removeTodolist = useCallback(() => props.removeTodolist(props.id), [props.removeTodolist, props.id])
+
+  const changeTodolistTitle = useCallback((title: string) =>
+     props.changeTodolistTitle(props.id, title), [props.changeTodolistTitle, props.id])
+
 
   const onAllClickHandler = useCallback(() => props.changeFilter("all", props.id), [props.changeFilter, props.id])
   const onActiveClickHandler = useCallback(() => props.changeFilter("active", props.id), [props.changeFilter, props.id])
@@ -49,10 +50,10 @@ export const Todolist = memo((props: PropsType) => {
   let tasksForTodolist = props.tasks;
 
   if (props.filter === "active") {
-    tasksForTodolist = props.tasks.filter(t => !t.isDone);
+    tasksForTodolist = tasksForTodolist.filter(t => !t.isDone);
   }
   if (props.filter === "completed") {
-    tasksForTodolist = props.tasks.filter(t => t.isDone);
+    tasksForTodolist = tasksForTodolist.filter(t => t.isDone);
   }
 
   return <div>
@@ -64,13 +65,20 @@ export const Todolist = memo((props: PropsType) => {
     <AddItemForm addItem={addTask}/>
     <div>
       {
-        tasksForTodolist.map(t =>
-           <Task task={t}
-                 removeTask={props.removeTask}
-                 changeTaskStatus={props.changeTaskStatus}
-                 changeTaskTitle={props.changeTaskTitle}
-                 todoListId={props.id}
-                 key={t.id}/>)
+        tasksForTodolist.map(t => {
+          return (
+             <Task
+                key={t.id}
+                taskId={t.id}
+                removeTask={props.removeTask}
+                isDone={t.isDone}
+                changeTaskStatus={props.changeTaskStatus}
+                changeTaskTitle={props.changeTaskTitle}
+                title={t.title}
+                todoListId={props.id}
+             />
+          );
+        })
       }
     </div>
     <div style={{paddingTop: "10px"}}>
