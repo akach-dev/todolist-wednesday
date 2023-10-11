@@ -8,7 +8,6 @@ export type ChangeTaskStatusAC = ReturnType<typeof changeTaskStatusAC>
 export type ChangeTaskTitleAC = ReturnType<typeof changeTaskTitleAC>
 
 
-// @ts-ignore
 type ActionsType =
    RemoveTaskACType
    | AddTaskACType
@@ -63,7 +62,6 @@ export const removeTaskAC = (id: string, todolistId: string) => {
 export const addTaskAC = (title: string, todolistId: string) => {
   return {type: 'ADD-TASK', title, todolistId} as const
 };
-
 export const changeTaskStatusAC = (id: string, isDone: boolean, todolistId: string) => {
   return {type: 'CHANGE-TASK-STATUS', id, isDone, todolistId} as const
 };

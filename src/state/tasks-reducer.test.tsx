@@ -149,6 +149,16 @@ test('property with todolistId should be deleted', () => {
 
   const keys = Object.keys(endState)
 
+  let a: any = {
+    a: 1,
+    b: 2
+  }
+
+  let b = a
+  a.a = 123123
+  console.log(a)
+  console.log(b)
+
   expect(keys.length).toBe(1)
   expect(endState['todolistId2']).not.toBeDefined()
 })
