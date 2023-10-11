@@ -15,7 +15,7 @@ export type TodolistType = {
   filter: FilterValuesType
 }
 
-type TasksStateType = {
+export type TasksStateType = {
   [key: string]: Array<TaskType>
 }
 
@@ -152,7 +152,7 @@ function App() {
                if (tl.filter === "completed") {
                  tasksForTodolist = allTodolistTasks.filter(t => t.isDone === true);
                }
-               
+
                return <Grid key={tl.id} item>
                  <Paper style={{padding: "10px"}}>
                    <Todolist
