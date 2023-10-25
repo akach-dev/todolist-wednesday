@@ -2,9 +2,10 @@ import React, {ChangeEvent, memo, useCallback} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
-import {Button, Checkbox, IconButton} from "@mui/material";
+import {Checkbox, IconButton} from "@mui/material";
 import {Delete} from "@mui/icons-material";
 import {ButtonMemo} from "./ButtonMemo";
+import {Task} from "./Task";
 
 
 export type TaskType = {
@@ -54,6 +55,14 @@ export const Todolist = memo((props: PropsType) => {
     tasks = tasks.filter(t => t.isDone);
   }
 
+  const removeTask = (taskId: string) => props.removeTask(taskId, props.id)
+  const changeTaskStatus = (taskId: string, isDone: boolean) => {
+    props.changeTaskStatus(taskId, isDone, props.id);
+  }
+  const changeTaskTitle = (taskId: string, newValue: string) => {
+    props.changeTaskTitle(taskId, newValue, props.id);
+  }
+
 
   return <div>
     <h3><EditableSpan value={props.title} onChange={changeTodolistTitle}/>
@@ -64,31 +73,14 @@ export const Todolist = memo((props: PropsType) => {
     <AddItemForm addItem={addTask}/>
     <div>
       {
-        tasks.map(t => {
-          const onClickHandler = () => props.removeTask(t.id, props.id)
-          const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-            let newIsDoneValue = e.currentTarget.checked;
-            props.changeTaskStatus(t.id, newIsDoneValue, props.id);
-          }
-          const onTitleChangeHandler = (newValue: string) => {
-            props.changeTaskTitle(t.id, newValue, props.id);
-          }
+        tasks.map(task => {
+          return <Task task={task} removeTask={removeTask} changeTaskTitle={changeTaskTitle}
 
-
-          return <div key={t.id} className={t.isDone ? "is-done" : ""}>
-            <Checkbox
-               checked={t.isDone}
-               color="primary"
-               onChange={onChangeHandler}
-            />
-
-            <EditableSpan value={t.title} onChange={onTitleChangeHandler}/>
-            <IconButton onClick={onClickHandler}>
-              <Delete/>
-            </IconButton>
-          </div>
+                       changeTaskStatus={changeTaskStatus}/>
         })
       }
+
+
     </div>
     <div style={{paddingTop: "10px"}}>
       <ButtonMemo variant={props.filter === 'all' ? 'outlined' : 'text'}

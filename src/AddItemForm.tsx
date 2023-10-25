@@ -27,7 +27,7 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
     if (error) setError(null);
-    if (e.charCode === 13) {
+    if (e.code === 'Enter') {
       addItem();
     }
   }
@@ -37,7 +37,7 @@ export const AddItemForm = memo((props: AddItemFormPropsType) => {
                error={!!error}
                value={title}
                onChange={onChangeHandler}
-               onKeyPress={onKeyPressHandler}
+               onKeyDown={onKeyPressHandler}
                label="Title"
                helperText={error}
     />
